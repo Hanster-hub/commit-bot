@@ -1,0 +1,24 @@
+name: Commit Bot
+
+on:
+  schedule:
+    - cron: '0 22 * * *'  # runs daily at 10 PM UTC
+  workflow_dispatch:        # allows manual trigger from GitHub UI
+
+permissions:
+  contents: write
+
+jobs:
+  commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Stamp commit
+        run: |
+          echo "Commit: $(date)" >> activity.log
+          git config user.name "Hanster"
+          git config user.email "1802760@sit.singaporetech.edu.sg"
+          git add activity.log
+          git commit -m "bot: $(date)"
+          git push
